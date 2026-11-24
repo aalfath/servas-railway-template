@@ -1,0 +1,22 @@
+{
+	frankenphp {
+		num_threads {$FRANKENPHP_NUM_THREADS}
+		max_threads {$FRANKENPHP_NUM_THREADS}
+	}
+	auto_https off
+	admin off
+	servers {
+		trusted_proxies static 100.64.0.0/10 152.233.0.0/16 10.0.0.0/8 fd00::/8
+	}
+}
+
+:{$PORT} {
+	root /app/public
+	encode zstd br gzip
+
+	rewrite /healthz /healthz.php
+
+	php_server {
+		try_files {path} index.php
+	}
+}
